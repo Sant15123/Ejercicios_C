@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Estructura_De_Control;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Estructura_de_Control
+namespace Estructura_De_Control
 {
     internal class Program
     {
@@ -100,44 +101,172 @@ namespace Estructura_de_Control
 
             //5..............................................................
 
-            Console.WriteLine("ingrese su salario mensual: ");
-            decimal salario = decimal.Parse(Console.ReadLine());
+            //Console.WriteLine("ingrese su salario mensual: ");
+            //decimal salario = decimal.Parse(Console.ReadLine());
 
-            Console.WriteLine("ingrese cuanto desea ahorrar mensualmente: ");
-            decimal ahorro_mensual = decimal.Parse(Console.ReadLine());
+            //Console.WriteLine("ingrese cuanto desea ahorrar mensualmente: ");
+            //decimal ahorro_mensual = decimal.Parse(Console.ReadLine());
 
-            decimal eps = salario * 0.125m;
-            decimal pension = salario * 0.16m;
+            //decimal eps = salario * 0.125m;
+            //decimal pension = salario * 0.16m;
 
-            decimal salario_neto = salario - eps - pension - ahorro_mensual;
+            //decimal salario_neto = salario - eps - pension - ahorro_mensual;
 
-            Console.WriteLine($"su salario neto es: {salario_neto}");
-            Console.WriteLine($"Su descuento por eps es: {eps}");
-            Console.WriteLine($"Su descuento por pension es: {pension}");
+            //Console.WriteLine($"su salario neto es: {salario_neto}");
+            //Console.WriteLine($"Su descuento por eps es: {eps}");
+            //Console.WriteLine($"Su descuento por pension es: {pension}");
 
 
             //6..............................................................
 
-            //NOS DIJERON QUE NO HAGAMOS ESTE EJERCICIO DE CLASES
+            // Nuevo flujo: crear una Persona y mostrar un menú con opciones
+            //            Console.WriteLine();
+            //            Console.WriteLine("--- Registro de Persona ---");
+            //            Console.WriteLine("Ingrese los datos de la persona:");
 
-            //7..............................................................
+            //            var persona = Persona.CrearDesdeConsola();
 
-            //NOS DIJERON QUE NO HAGAMOS ESTE EJERCICIO DE CLASES
+            //            while (true)
+            //            {
+            //                Console.WriteLine();
+            //                Console.WriteLine("Seleccione una opción:");
+            //                Console.WriteLine("1 - Imprimir detalles de la persona");
+            //                Console.WriteLine("2 - Calcular edad en días");
+            //                Console.WriteLine("3 - Editar información");
+            //                Console.WriteLine("4 - Salir");
+            //                Console.Write("Opción: ");
+            //                var opcion = Console.ReadLine();
 
-            //8..............................................................
+            //                switch (opcion)
+            //                {
+            //                    case "1":
+            //                        persona.ImprimirDetalles();
+            //                        break;
+            //                    case "2":
+            //                        Console.WriteLine($"Edad en días (aprox): {persona.CalcularEdadEnDias()} días");
+            //                        break;
+            //                    case "3":
+            //                        persona.EditarInformacion();
+            //                        break;
+            //                    case "4":
+            //                        Console.WriteLine("Saliendo...");
+            //                        return;
+            //                    default:
+            //                        Console.WriteLine("Opción inválida. Intente nuevamente.");
+            //                        break;
+            //                }
+            //            }
 
-            //9..............................................................
+            // Llamar al menú de la biblioteca
+            EjecutarBiblioteca();
+        }
 
-            //10.............................................................
+        private static void EjecutarBiblioteca()
+        {
+            Biblioteca biblioteca = new Biblioteca();
+            int opcion = 0;
 
-            //11.............................................................
+            do
+            {
+                Console.WriteLine("===== MENÚ BIBLIOTECA =====");
+                Console.WriteLine("1. Agregar libro");
+                Console.WriteLine("2. Listar libros");
+                Console.WriteLine("3. Buscar libro por título");
+                Console.WriteLine("4. Salir");
+                Console.Write("Seleccione una opción: ");
 
-            //12.............................................................
+                try
+                {
+                    opcion = int.Parse(Console.ReadLine());
+                }
+                catch
+                {
+                    opcion = 0;
+                }
 
+                Console.WriteLine();
 
+                switch (opcion)
+                {
+                    case 1:
+                        Libro nuevoLibro = Libro.CrearDesdeConsola();
+                        biblioteca.AgregarLibro(nuevoLibro);
+                        break;
 
+                    case 2:
+                        biblioteca.ListarLibros();
+                        break;
 
+                    case 3:
+                        Console.Write("Ingrese el título del libro a buscar: ");
+                        string titulo = Console.ReadLine();
+                        biblioteca.BuscarLibro(titulo);
+                        break;
+
+                    case 4:
+                        Console.WriteLine("👋 Saliendo del programa...");
+                        break;
+
+                    default:
+                        Console.WriteLine("❌ Opción no válida.\n");
+                        break;
+                }
+
+            } while (opcion != 4);
+        }
+
+        internal class Biblioteca
+        {
+            private List<Libro> libros = new List<Libro>();
+
+            public void AgregarLibro(Libro libro)
+            {
+                libros.Add(libro);
+                Console.WriteLine("\n✅ Libro agregado correctamente.\n");
+            }
+
+            public void ListarLibros()
+            {
+                if (libros.Count == 0)
+                {
+                    Console.WriteLine("❌ No hay libros registrados.\n");
+                    return;
+                }
+
+                Console.WriteLine("\n📚 Lista de libros:\n");
+                foreach (var libro in libros)
+                {
+                    Console.WriteLine(libro);
+                }
+                Console.WriteLine();
+            }
+
+            public void BuscarLibro(string titulo)
+            {
+                var encontrado = libros.Find(l => l.Titulo.Equals(titulo, StringComparison.OrdinalIgnoreCase));
+
+                if (encontrado != null)
+                {
+                    Console.WriteLine("\n🔎 Libro encontrado:\n");
+                    Console.WriteLine(encontrado + "\n");
+                }
+                else
+                {
+                    Console.WriteLine("\n❌ No se encontró un libro con ese título.\n");
+                }
+            }
         }
     }
 }
+
+//8..............................................................
+
+//9..............................................................
+
+//10.............................................................
+
+//11.............................................................
+
+//12.............................................................
+
 
