@@ -119,48 +119,65 @@ namespace Estructura_De_Control
 
             //6..............................................................
 
-            // Nuevo flujo: crear una Persona y mostrar un menú con opciones
-            //            Console.WriteLine();
-            //            Console.WriteLine("--- Registro de Persona ---");
-            //            Console.WriteLine("Ingrese los datos de la persona:");
+            // Menú para seleccionar ejercicios 
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("===== MENÚ PRINCIPAL =====");
+                Console.WriteLine("1 - Biblioteca");
+                Console.WriteLine("2 - Ejercicio 6: Matrícula Universidad");
+                Console.WriteLine("3 - Ejercicio 7: Computronic Ventas");
+                Console.WriteLine("4 - Ejercicio 8: Seguros Bogotá");
+                Console.WriteLine("5 - Ejercicio 9: Bonos Empleados TikTok");
+                Console.WriteLine("6 - Ejercicio 10: Distribución de Químicos");
+                Console.WriteLine("7 - Salir");
+                Console.Write("Seleccione una opción (1-7): ");
 
-            //            var persona = Persona.CrearDesdeConsola();
+                string entrada = Console.ReadLine();
+                Console.WriteLine();
 
-            //            while (true)
-            //            {
-            //                Console.WriteLine();
-            //                Console.WriteLine("Seleccione una opción:");
-            //                Console.WriteLine("1 - Imprimir detalles de la persona");
-            //                Console.WriteLine("2 - Calcular edad en días");
-            //                Console.WriteLine("3 - Editar información");
-            //                Console.WriteLine("4 - Salir");
-            //                Console.Write("Opción: ");
-            //                var opcion = Console.ReadLine();
+                switch (entrada)
+                {
+                    case "1":
+                        Console.WriteLine("Ejecutando: Biblioteca");
+                        EjecutarBiblioteca();
+                        break;
+                    case "2":
+                        Console.WriteLine("Ejecutando: Ejercicio 6 - Matrícula Universidad");
+                        Ejercicios.Ejercicio6_MatriculaUniversidad();
+                        break;
+                    case "3":
+                        Console.WriteLine("Ejecutando: Ejercicio 7 - Computronic Ventas");
+                        Ejercicios.Ejercicio7_Computronic();
+                        break;
+                    case "4":
+                        Console.WriteLine("Ejecutando: Ejercicio 8 - Seguros Bogotá");
+                        Ejercicios.Ejercicio8_SegurosBogota();
+                        break;
+                    case "5":
+                        Console.WriteLine("Ejecutando: Ejercicio 9 - Bonos Empleados TikTok");
+                        Ejercicios.Ejercicio9_TikTokBonos();
+                        break;
+                    case "6":
+                        Console.WriteLine("Ejecutando: Ejercicio 10 - Distribución de Químicos");
+                        Ejercicios.Ejercicio10_DistribucionQuimicos();
+                        break;
+                    case "7":
+                        Console.WriteLine("Saliendo...");
+                        return;
+                    default:
+                        Console.WriteLine("Opción inválida. Intente nuevamente.");
+                        break;
+                }
 
-            //                switch (opcion)
-            //                {
-            //                    case "1":
-            //                        persona.ImprimirDetalles();
-            //                        break;
-            //                    case "2":
-            //                        Console.WriteLine($"Edad en días (aprox): {persona.CalcularEdadEnDias()} días");
-            //                        break;
-            //                    case "3":
-            //                        persona.EditarInformacion();
-            //                        break;
-            //                    case "4":
-            //                        Console.WriteLine("Saliendo...");
-            //                        return;
-            //                    default:
-            //                        Console.WriteLine("Opción inválida. Intente nuevamente.");
-            //                        break;
-            //                }
-            //            }
-
-            // Llamar al menú de la biblioteca
-            EjecutarBiblioteca();
+                Console.WriteLine();
+                Console.WriteLine("Presione una tecla para continuar...");
+                Console.ReadKey();
+                Console.Clear();
+            }
         }
 
+        // Ejecuta el menú de la biblioteca
         private static void EjecutarBiblioteca()
         {
             Biblioteca biblioteca = new Biblioteca();
@@ -172,14 +189,10 @@ namespace Estructura_De_Control
                 Console.WriteLine("1. Agregar libro");
                 Console.WriteLine("2. Listar libros");
                 Console.WriteLine("3. Buscar libro por título");
-                Console.WriteLine("4. Salir");
+                Console.WriteLine("4. Volver al menú principal");
                 Console.Write("Seleccione una opción: ");
 
-                try
-                {
-                    opcion = int.Parse(Console.ReadLine());
-                }
-                catch
+                if (!int.TryParse(Console.ReadLine(), out opcion))
                 {
                     opcion = 0;
                 }
@@ -192,81 +205,24 @@ namespace Estructura_De_Control
                         Libro nuevoLibro = Libro.CrearDesdeConsola();
                         biblioteca.AgregarLibro(nuevoLibro);
                         break;
-
                     case 2:
                         biblioteca.ListarLibros();
                         break;
-
                     case 3:
                         Console.Write("Ingrese el título del libro a buscar: ");
                         string titulo = Console.ReadLine();
                         biblioteca.BuscarLibro(titulo);
                         break;
-
                     case 4:
-                        Console.WriteLine("👋 Saliendo del programa...");
+                        // volver al menú principal
                         break;
-
                     default:
-                        Console.WriteLine("❌ Opción no válida.\n");
+                        Console.WriteLine("Opción no válida. Intente nuevamente.\n");
                         break;
                 }
 
             } while (opcion != 4);
         }
-
-        internal class Biblioteca
-        {
-            private List<Libro> libros = new List<Libro>();
-
-            public void AgregarLibro(Libro libro)
-            {
-                libros.Add(libro);
-                Console.WriteLine("\n✅ Libro agregado correctamente.\n");
-            }
-
-            public void ListarLibros()
-            {
-                if (libros.Count == 0)
-                {
-                    Console.WriteLine("❌ No hay libros registrados.\n");
-                    return;
-                }
-
-                Console.WriteLine("\n📚 Lista de libros:\n");
-                foreach (var libro in libros)
-                {
-                    Console.WriteLine(libro);
-                }
-                Console.WriteLine();
-            }
-
-            public void BuscarLibro(string titulo)
-            {
-                var encontrado = libros.Find(l => l.Titulo.Equals(titulo, StringComparison.OrdinalIgnoreCase));
-
-                if (encontrado != null)
-                {
-                    Console.WriteLine("\n🔎 Libro encontrado:\n");
-                    Console.WriteLine(encontrado + "\n");
-                }
-                else
-                {
-                    Console.WriteLine("\n❌ No se encontró un libro con ese título.\n");
-                }
-            }
-        }
     }
 }
-
-//8..............................................................
-
-//9..............................................................
-
-//10.............................................................
-
-//11.............................................................
-
-//12.............................................................
-
 
